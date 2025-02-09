@@ -8,10 +8,12 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 
 import java.io.IOException;
+import java.io.Serial;
 
 @WebServlet("/quest")
 public class QuestServlet extends HttpServlet {
 
+    @Serial
     private static final long serialVersionUID = 1L;
 
     @Override
@@ -43,20 +45,17 @@ public class QuestServlet extends HttpServlet {
             // Обработка действий игрока на текущем экране
             switch (gameState.getCurrentScreen()) {
                 case "screen1":
-                    if ("optionA".equals(action)) {
-                        gameState.setCurrentScreen("screen2A");
-                    } else if ("optionB".equals(action)) {
-                        gameState.setCurrentScreen("screen2B");
-                    } else if ("optionC".equals(action)) {
-                        gameState.setCurrentScreen("screen2C");
+                    switch (action) {
+                        case "optionA" -> gameState.setCurrentScreen("screen2A");
+                        case "optionB" -> gameState.setCurrentScreen("screen2B");
+                        case "optionC" -> gameState.setCurrentScreen("screen2C");
                     }
                     break;
                 // Добавьте обработку для остальных экранов и действий
                 case "screen2A":
-                    if ("optionA".equals(action)) {
-                        gameState.setCurrentScreen("goodEnding");
-                    } else if ("optionB".equals(action)) {
-                        gameState.setCurrentScreen("neutralEnding");
+                    switch (action) {
+                        case "optionA" -> gameState.setCurrentScreen("goodEnding");
+                        case "optionB" -> gameState.setCurrentScreen("neutralEnding");
                     }
                     break;
 
