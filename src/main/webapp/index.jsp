@@ -1,53 +1,40 @@
-<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ page import="com.javarush.stepanov.quest.GameState" %>
-<!DOCTYPE html>
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@page import = "java.util.*" session="true"%>
+
 <html>
 <head>
-    <meta charset="UTF-8">
-    <title>Последнее сообщение</title>
-    <link rel="stylesheet" href="css/style.css">
+    <title>Quest Game</title>
+    <link href="css/index.css" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
+
 <body>
-<%
-    GameState gameState = (GameState) request.getAttribute("gameState");
-    if (gameState == null) {
-        response.sendRedirect("quest"); // Инициализация игры
-        return;
-    }
-
-    String currentScreen = gameState.getCurrentScreen();
-%>
-
-<div class="container">
-    <h1>Последнее сообщение</h1>
-
-    <%-- Отображение контента в зависимости от экрана --%>
-    <% if ("screen1".equals(currentScreen)) { %>
-    <p>Получено сообщение: [Странные символы] ... Quarantine. Станция "Аргус-7" молчит. Что вы делаете?</p>
-    <form action="quest" method="post">
-        <button type="submit" name="action" value="optionA">Попытаться расшифровать символы.</button><br>
-        <button type="submit" name="action" value="optionB">Немедленно связаться с командованием.</button><br>
-        <button type="submit" name="action" value="optionC">Проигнорировать сообщение (возможно, сбой системы).</button>
-    </form>
-
-    <% } else if ("screen2A".equals(currentScreen)) { %>
-    <p>Вам удалось частично расшифровать символы. Они указывают на протокол биологической защиты. Что вы делаете?</p>
-    <form action="quest" method="post">
-        <button type="submit" name="action" value="optionA">Поднять уровень тревоги до максимального.</button><br>
-        <button type="submit" name="action" value="optionB">Попытаться связаться с медицинским отделом станции.</button><br>
-    </form>
-
-    <% } else if ("screen2B".equals(currentScreen)) { %>
-    <%-- Контент для screen2B --%>
-
-    <% } else if ("screen2C".equals(currentScreen)) { %>
-    <%-- Контент для screen2C --%>
-
-    <% } else if ("goodEnding".equals(currentScreen)) { %>
-    <p>Благодаря вашим действиям, карантин сработал. Угроза локализована. Вас благодарят за оперативность и профессионализм.</p>
-    <% } else if ("neutralEnding".equals(currentScreen)) { %>
-    <p>Станция "Аргус-7" эвакуирована. Дальнейшая судьба экипажа и потенциальной угрозы неизвестна. Вы выполнили протокол, но вопросы остались.</p>
-    <% } %>
+<div>
+    <h1>“Последнее сообщение”</h1>
+    <button onclick="window.location='game'">Начать</button>
+</div>
+<div>
+    <table>
+        <tr>
+            <td>
+                <p><b>Статистика:</b></p>
+                <%
+                    Integer counter = (Integer)session.getAttribute("counter");
+                    if (counter == null) {
+                        counter = 1;
+                    } else {
+                        counter++;
+                    }
+                    session.setAttribute("counter", counter);
+                %>
+                ID сессии: <%=session.getId()%>
+                <br>
+                Кол-во сыгранных игр: <%=counter%>
+                <br>
+                Дата запуска: <%= (new java.util.Date())%>
+            </td>
+        </tr>
+    </table>
 </div>
 </body>
 </html>
